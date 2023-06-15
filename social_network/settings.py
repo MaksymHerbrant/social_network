@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-syt-ngfaw(j(0qwyc)*b&+(pa)i64xq_vi2sb&o%0_ydx^u2+8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','https://maksymherbrant.pythonanywhere.com/']
 
 
 # Application definition
