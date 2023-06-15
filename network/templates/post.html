@@ -1,0 +1,50 @@
+
+<style>
+    /* Custom CSS */
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to left bottom, blue, pink);
+    }
+    
+    .title {
+        font-family: "Gunny Rewritten", sans-serif;
+        text-align: center;
+        margin-top: -100px;
+    }
+    
+    .input-field {
+        border: 1px solid rgb(107, 104, 104);
+    }
+    
+    #wkk {
+        font-family: "Gunny Rewritten", sans-serif;
+        border: 2px solid black;
+        padding: 70px;
+        border-radius: 4%;
+        background: linear-gradient(to left bottom, rgb(113, 113, 222), rgb(241, 192, 200));
+        position: relative;
+    }
+    
+    .button {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+</style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+<div id="wkk">
+    <table>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_table }}
+        </form>
+    </table>
+    <button class="btn btn-secondary button">Create</button>
+</div>

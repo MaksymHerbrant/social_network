@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!-- <script src="/static/js/code.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+<link rel="stylesheet" href="/static/css/style.css">
+
+
+<link rel="stylesheet" href="/static/css/lightbox.min.css">
+<script type="text/javascript" src="/static/css/lightbox-plus-jquery.min.js"></script>
+
+
+
+ -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+ <link rel="stylesheet" href="/static/css/reg.css">
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+ <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">  
+ <script src="/static/js/code.js"></script>
+ 
+ <!------------------LIght BOx for Gallery--------------> 
+ <link rel="stylesheet" href="/static/css/lightbox.min.css">
+ <script type=" " src="/static/js/code.js"></script>
+ <!------------------LIght BOx for Gallery-------------->
+
+<title>Application</title>
+</head>
+<body>
+
+
+
+    <!-------------------------------NAvigation Starts------------------>
+
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color:#3097D1">
+            <a href="index.html" class="navbar-brand"><img src="img/brand-white.png" alt="logo" class="img-fluid" width="80px" height="100px"></a>
+    
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#responsive"><span class="navbar-toggler-icon"></span></button>
+    
+    
+            <div class="collapse navbar-collapse" id="responsive">
+                <ul class="navbar-nav mr-auto text-capitalize">
+                    <li class="nav-item">  <a href="/home/" class="nav-link active" onclick="redirectHome(event)">home</a></li>
+                    <li class="nav-item"><a href="profile.html" class="nav-link">profile</a></li>
+                    <li class="nav-item"><a href="#modalview" data-toggle="modal" class="nav-link">messages</a></li>
+                    <li class="nav-item"><a href="notification.html" class="nav-link">docs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link d-md-none">growl</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link d-md-none">logout</a></li>
+    
+                </ul>
+    
+                <form action="" class="form-inline ml-auto d-none d-md-block">
+                    <input type="text" name="search" id="search" placeholder="Search" class="form-control form-control-sm">
+                </form>
+                <button type="submit" id="openDialogButton"><img src="/static/img/uploadavatar.png" height="35px" width="35px"></a> </button>
+                
+                                                            <div id="overlay"></div> <!-- Елемент для затемненого фону -->
+                                                            <dialog id="myDialog">
+                                                            <form method="POST"  enctype="multipart/form-data">
+                                                                {% csrf_token %}
+                                                                
+                                                                {{form}}
+
+                                                                <input type="submit" value="Додати аватар" class="btn btn-outline-secondary">
+                                                            </form>
+
+                                                            <button id="closeDialogButton">
+                                                                <img src="/static/img/cross.png" alt="Закрити">
+                                                            </button>
+                                                            </dialog>
+                <!-- <form method="POST"  enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        
+                       
+        </form>
+         -->
+       
+                
+
+                                                           
+                <img src="img/avatar-dhg.png" alt="" class="rounded-circle ml-3 d-none d-md-block" width="32px" height="32px">
+    
+    
+    
+    
+    
+            </div>
+    
+    
+    
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

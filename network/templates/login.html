@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page -->
+    <title>Login Forms</title>
+
+    <!-- Main CSS -->
+    
+
+    <style>
+        /* Custom CSS */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to left bottom, blue, pink);
+            
+        }
+        
+        .title {
+            font-family: "Gunny Rewritten", sans-serif;
+            text-align: center;
+            margin-top: -100px;
+        }
+        .input-field {
+            border: 1px solid rgb(107, 104, 104);
+        }
+        #wrapper {
+            font-family: "Gunny Rewritten", sans-serif;
+            border: 2px solid black;
+            padding: 70px;
+            border-radius: 4%;
+            background: linear-gradient(to left bottom, rgb(113, 113, 222), rgb(241, 192, 200));
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-container"></div>
+    <div class="center-wrapper">
+        <h2 class="title">Login Form</h2>
+        <form class="wrapper" method="POST">
+            {% csrf_token %}
+            <div class="row row-space">
+                <div class="col-2">
+                    <div class="wrapper" id="wrapper">
+                        {% for field in form %}
+                            {{ field.errors }}
+                            <p>{{ field.label_tag }}<br> {{ field }}</p><br>
+                        {% endfor %}
+                        <input class="btn btn-secondary" type="submit" value="Log In">
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+           
+        </form>
+        <a href="registration/">Sin up</a>
+    </div>
+</body>
+
+</html> 
