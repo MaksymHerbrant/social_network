@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from datetime import datetime
 from .forms import Registration,AddPost
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from .forms import FileUploadForm,ChatForm
@@ -335,9 +336,9 @@ class ChatHidenView(TemplateView):
         return context
 
 
+
 class MasegView(APIView):
     def post(self, request):
-        print("kdkdkkkkkkkkkkkkkkkkkkkkkkdkddwwywyywywywywywybdbdbdbdbdb")
         data_post = request.POST
         user = request.user
 
@@ -352,10 +353,12 @@ class MasegView(APIView):
                 message = Message(user=user, chat=chat, body=message_body, sent_at=sent_at)
                 message.save()
 
+                sent_time = sent_at.strftime("%H:%M")  # Форматуємо час надсилання повідомлення (hh:mm)
+
                 return JsonResponse({
                     'message': message_body,
                     'user_id': message.user_id,
-                    'sent_at': sent_at.strftime("%Y-%m-%d %H:%M:%S")  # Форматуємо час надсилання повідомлення
+                    'sent_at': sent_time
                 })
 
         return JsonResponse({
@@ -371,7 +374,7 @@ class GetMessagesView(View):
         for message in messages:
             formatted_message = {
                 'user': message['user__username'],
-                'sent_at': message['sent_at'].strftime("%Y-%m-%d %H:%M:%S"),  # Форматуємо час надсилання повідомлення
+                'sent_at': message['sent_at'].strftime("%H:%M"),  # Форматуємо час надсилання повідомлення
                 'body': message['body']
             }
             formatted_messages.append(formatted_message)
