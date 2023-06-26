@@ -83,3 +83,32 @@
   padding: 5px 10px;
   cursor: pointer;
 }
+
+.like-container {
+  display: flex;
+  align-items: center;
+}
+
+.like-button {
+  order: 1;
+  margin-right: 10px;
+}
+
+.like-amount {
+  order: 2;
+}
+
+#logout{
+  margin: 40px;
+  padding: 30px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.username {
+  margin-right: 10px;
+}

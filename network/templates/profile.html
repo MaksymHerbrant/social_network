@@ -16,6 +16,9 @@
 
 
  -->
+ <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
  <link rel="stylesheet" href="/static/css/reg.css">
@@ -33,12 +36,196 @@
 </head>
 <body>
 
+<style>
+    .rounded-circle{
+        margin-left: 60px;
+    }
+        
 
+    .center {
+        text-align: center;
+    }
+    .logout{
+        margin-left: 5px;
+        margin-right: -10px;
+        margin-bottom: 60px;
+    }
+    #myDialog {
+  /* Стилі для діалогового вікна */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  max-width: 600px;
+  max-height: 500px;
+  overflow: auto;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  display: none;
+  font-family: "B612", sans-serif;
+}
+#closeDialogButton {
+  position: absolute;
+  top: 105px;
+  right: 15px;
+  background: none;
+  border: none;
+  padding: 0;
+  width: 25px;
+  height: 25px;
+}
+
+#closeDialogButton img {
+  width: 100%;
+  height: 100%;
+}
+#myDialog input[type="text"],
+#myDialog textarea {
+  width: 100%;
+  padding: 2px;
+  margin-bottom: 10px;
+}
+
+#myDialog input[type="submit"] {
+  display: block;
+  margin: 0 auto;
+  font-family: "B612", sans-serif;
+}
+
+#closeDialogButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+#overlay {
+  /* Стилі для затемненого фону */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Затемнений фон */
+  z-index: 9998;
+  display: none; /* По замовчуванню прихований */
+}
+
+.delete-container {
+  text-align: right;
+}
+
+.delete-form {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.like-container {
+  display: flex;
+  align-items: center;
+}
+
+.like-button {
+  order: 1;
+  margin-right: 10px;
+}
+
+.like-amount {
+  order: 2;
+}
+
+#logout{
+  margin: 40px;
+  padding: 30px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.username {
+  margin-right: 10px;
+}
+</style>
+
+<script>
+    flatpickr("#my-date-input", {
+        dateFormat: "d.m.Y", // Формат дати
+        allowInput: true, // Дозволити введення дати вручну
+        altInput: true, // Використовувати альтернативне поле введення
+        altFormat: "F j, Y", // Формат для альтернативного поля введення
+        minDate: "today", // Мінімальна доступна дата
+        maxDate: new Date().fp_incr(30), // Максимальна доступна дата (+30 днів від сьогоднішньої дати)
+        locale: {
+            firstDayOfWeek: 1, // Початок тижня з понеділка
+            weekdays: {
+                shorthand: ["Нд", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+                longhand: [
+                    "Неділя",
+                    "Понеділок",
+                    "Вівторок",
+                    "Середа",
+                    "Четвер",
+                    "П'ятниця",
+                    "Субота",
+                ],
+            },
+            months: {
+                shorthand: [
+                    "Січ",
+                    "Лют",
+                    "Бер",
+                    "Квіт",
+                    "Трав",
+                    "Черв",
+                    "Лип",
+                    "Серп",
+                    "Вер",
+                    "Жовт",
+                    "Лист",
+                    "Груд",
+                ],
+                longhand: [
+                    "Січень",
+                    "Лютий",
+                    "Березень",
+                    "Квітень",
+                    "Травень",
+                    "Червень",
+                    "Липень",
+                    "Серпень",
+                    "Вересень",
+                    "Жовтень",
+                    "Листопад",
+                    "Грудень",
+                ],
+            },
+        },
+    });
+</script>
 
     <!-------------------------------NAvigation Starts------------------>
 
-    <nav class="navbar navbar-expand-md navbar-dark" style="background-color:#3097D1">
-            <a href="index.html" class="navbar-brand"><img src="img/brand-white.png" alt="logo" class="img-fluid" width="80px" height="100px"></a>
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color:#44a6df">
+        <a href="/home/" class="navbar-brand"><img src="/static/img/base/logo.png" alt="logo" class="img-fluid" width="70px" height="90px"></a>
     
             <button class="navbar-toggler" data-toggle="collapse" data-target="#responsive"><span class="navbar-toggler-icon"></span></button>
     
@@ -46,18 +233,13 @@
             <div class="collapse navbar-collapse" id="responsive">
                 <ul class="navbar-nav mr-auto text-capitalize">
                     <li class="nav-item">  <a href="/home/" class="nav-link active" onclick="redirectHome(event)">home</a></li>
-                    <li class="nav-item"><a href="profile.html" class="nav-link">profile</a></li>
-                    <li class="nav-item"><a href="#modalview" data-toggle="modal" class="nav-link">messages</a></li>
-                    <li class="nav-item"><a href="notification.html" class="nav-link">docs</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link d-md-none">growl</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link d-md-none">logout</a></li>
-    
+                    <li class="nav-item"><a href="/home/profile/{{user.id}}" class="nav-link">profile</a></li>
+                    
                 </ul>
-    
-                <form action="" class="form-inline ml-auto d-none d-md-block">
-                    <input type="text" name="search" id="search" placeholder="Search" class="form-control form-control-sm">
-                </form>
-                <button type="submit" id="openDialogButton"><img src="/static/img/uploadavatar.png" height="35px" width="35px"></a> </button>
+                <p class="fw-bold"> Followers: {{ followers.count }}</p>
+               
+                
+                <button type="submit" id="openDialogButton"><img src="/static/img/avatar/uploadavatar.png" height="35px" width="35px"></a> </button>
                 
                                                             <div id="overlay"></div> <!-- Елемент для затемненого фону -->
                                                             <dialog id="myDialog">
@@ -70,7 +252,7 @@
                                                             </form>
 
                                                             <button id="closeDialogButton">
-                                                                <img src="/static/img/cross.png" alt="Закрити">
+                                                                <img src="/static/img/base/cross.png" alt="Закрити">
                                                             </button>
                                                             </dialog>
                 <!-- <form method="POST"  enctype="multipart/form-data">
@@ -84,34 +266,129 @@
                 
 
                                                            
-                <img src="img/avatar-dhg.png" alt="" class="rounded-circle ml-3 d-none d-md-block" width="32px" height="32px">
+         {% load static %}
+                                                            
+            
+         {% if user.avatar %}
+           <img src="{{ user.avatar.url|cut:"network/" }}" class="rounded-circle" width="70px" height="70px" alt="Avatar">
+         {% else %}
+           <img src="{% static 'img/base/default_avatar.png' %}" class="rounded-circle" alt="Default Avatar" width="70px">
+         {% endif %}
     
     
     
-    
+         <a href="/logout/" ><img src="/static/img/base/logout.png" class="logout" alt="img" width="20px" height="20px"></a>
     
             </div>
     
-    
+    </nav>
     
  
 
 
 
 
+  
+   
+            <div class="container">
+                <div class="row">
+        
+        
+                    <!--------------------------left columns  start-->
+        
+                    <div class="col-12 col-lg-3">
+        
+                        <div class="left-column">
+        
+        
+                            <div class="card card-left1 mb-4" >
+                                
+                                <div class="card-body text-center ">
+                                  <h3>Інформація {{user.username}}</h3>
+        
+                                </div>
+        
+        
+        
+        
+                            </div>
+        
+        
+                            <div class="card shadow-sm card-left2 mb-4">
+        
+                                <div class="card-body">
+                                    <form method="POST" action="{% url 'add_about_user' user.id %}">
+
+                                        {% csrf_token %}
+                                        
+                                        <h5 class="mb-3 card-title">
+                                          <small>
+                                            <div class="input-group">
+                                              <span class="input-group-text"> Розкажіть більше про себе</span>
+                                              <textarea class="form-control" aria-label="With textarea" name="about"></textarea>
+                                            </div>
+                                          </small>
+                                        </h5>
+                                        
+                                        <p class="card-text">
+                                          <i class="fas fa-calendar-week mr-2"></i>Дата народження
+                                          <input type="date" class="flatpickr-input" name="date_of_birth">
+                                        </p>
+                                        
+                                        <p class="card-text">
+                                          <i class="fas fa-gamepad"></i> Поділися своїм хобі
+                                          <input type="text" class="form-control" id="inputCity" name="hobby">
+                                        </p>
+                                        
+                                        <p class="card-text">
+                                          <i class="far fa-building mr-2"></i> Доайте місце роботи
+                                          <input type="text" name="work">
+                                        </p>
+                                        
+                                        <p class="card-text">
+                                          <i class="fas fa-home mr-2"></i>  Додайте місто, де ви проживаєте
+                                          <input type="text" class="form-control" id="inputCity" name="city">
+                                        </p>
+                                        
+                                        <button type="submit" class="btn btn-outline-info" name="submit">Додати інформацію</button>
+                                      </form>
+        
+                                </div>
+                             
+        
+        
+        
+        
+                            </div>
+        
+
+
+     
 
 
 
 
+    </div>
+    
+                    </div>
 
 
-
-
-
-
-
-
-
+                    <div class="center">  
+                        {% for post in current_user_posts %}
+                        {{ crsf_token}}
+                                    <h4>{{ post.title }}</h4>
+                                    <p>{{ post.body }}</p>
+                                    <div class="delete-container">
+                                      <form method="post" action="/delete/{{ post.id }}" class="delete-form">
+                                        {% csrf_token %}
+                                        <input type="submit" value="Видалити пост" class="delete-button">
+                                      </form>
+                                    </div>
+                                    <img src="/{{ post.photo|cut:"network/" }}" width="400px" >
+            <hr>
+                        {% endfor %}
+                        
+                        
 
 
 

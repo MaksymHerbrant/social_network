@@ -1,6 +1,6 @@
 
 from django import forms
-from network.models import Comment,Post,User
+from network.models import Comment,Post,User,Message
 
 from django.contrib.auth.forms import UserCreationForm
 
@@ -33,3 +33,12 @@ class FileUploadForm(forms.ModelForm):
         model = User
         fields = ['avatar']
         
+
+
+class ChatForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['body']
+       
+
+

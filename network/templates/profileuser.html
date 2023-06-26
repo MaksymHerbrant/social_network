@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!-- <script src="/static/js/code.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+<link rel="stylesheet" href="/static/css/style.css">
+
+
+<link rel="stylesheet" href="/static/css/lightbox.min.css">
+<script type="text/javascript" src="/static/css/lightbox-plus-jquery.min.js"></script>
+
+
+
+ -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+ <link rel="stylesheet" href="/static/css/reg.css">
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+ <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">  
+ <script src="/static/js/code.js"></script>
+ 
+ <!------------------LIght BOx for Gallery--------------> 
+ <link rel="stylesheet" href="/static/css/lightbox.min.css">
+ <script type=" " src="/static/js/code.js"></script>
+ <!------------------LIght BOx for Gallery-------------->
+
+<title>Application</title>
+</head>
+<body>
+
+
+
+    <!-------------------------------NAvigation Starts------------------>
+
+    <style>
+      .navbar-nav {
+          flex-grow: 1;
+          display: flex;
+          justify-content: flex-start;
+      }
+  
+      .navbar-btn {
+          margin-right: 40px;
+       
+      }
+      .followers {
+        margin-bottom: -1%;
+        margin-right: 40px;
+      }
+  </style>
+  
+  <nav class="navbar navbar-expand-md navbar-dark" style="background-color:#44a6df">
+    <a href="/home/" class="navbar-brand"><img src="/static/img/base/logo.png" alt="logo" class="img-fluid" width="70px" height="90px"></a>
+  
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#responsive"><span class="navbar-toggler-icon"></span></button>
+  
+      <div class="collapse navbar-collapse" id="responsive">
+          <ul class="navbar-nav text-capitalize">
+              <li class="nav-item"><a href="/home/" class="nav-link active" onclick="redirectHome(event)">home</a></li>
+              
+              
+          </ul>
+          
+      <div class="followers">
+      <p class="fw-bold"> Followers: {{ followers.count }}</p>
+      </div>
+          
+          <div class="navbar-btn">
+              {% if user_following %}
+                  <form action="{% url 'unfollow' user.id %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-link p-0"><img src="/static/img/base/check.png" width="35px"></button>
+                  </form>
+              {% else %}
+                  <form action="{% url 'follow' user.id %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-link p-0"><img src="/static/img/base/add-friend.png" width="35px"></button>
+                  </form>
+              {% endif %}
+          </div>
+      </div>
+
+  
+  
+  
+  
+ 
+  
+ 
+  
+
+
+                {% load static %}
+                                                            
+            
+{% if user.avatar %}
+  <img src="{{ user.avatar.url|cut:"network/" }}" class="rounded-circle" width="70px" height="70px" alt="Avatar">
+{% else %}
+  <img src="{% static 'img/base/default_avatar.png' %}" alt="Default Avatar" width="70px">
+{% endif %}
+
+
+
+</nav>
+
+       
+                
+
+                                                           
+            
+    
+    
+<style>
+    .center {
+        text-align: center;
+    }
+</style>
+    
+    
+
+
+
+
+
+<div class="container">
+  <div class="row">
+
+
+      <!--------------------------left columns  start-->
+
+      <div class="col-12 col-lg-3">
+
+          <div class="left-column">
+
+
+              <div class="card card-left1 mb-4" >
+                  
+                  <div class="card-body text-center ">
+                    <h3>Інформація {{user.username}}</h3>
+
+                  </div>
+
+
+
+
+              </div>
+
+
+              <div class="card shadow-sm card-left2 mb-4">
+
+                  <div class="card-body">
+                      
+                          
+                          <p class="mb-3 card-title">
+                            <i class="fas fa-exclamation-circle"></i> Загальна інформація:<br>
+                              
+                              {{user_info.about}}
+                              
+                              
+                            
+                            </p>
+
+                                <p class="card-text">
+                                  <i class="fas fa-calendar-week mr-2"></i>Дата народження:<br>
+                                  {{ user_info.date_of_birth}}
+                                </p>
+                                
+                                <p class="card-text">
+                                  <i class="fas fa-gamepad"></i> Хобі:</br>
+                                  {{user_info.hobby}}
+                                </p>
+                                
+                                <p class="card-text">
+                                  <i class="far fa-building mr-2"></i>  Місце роботи:</br>
+                                {{user_info.work}}
+                                </p>
+                                
+                                <p class="card-text">
+                                  <i class="fas fa-home mr-2"></i>Місто в якому проживає: </br>
+                                  {{ user_info.city }}
+                                </p>
+                        
+
+                  </div>
+               
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+</div>
+
+      </div>
+
+
+
+
+  
+<div class="center">      
+  <h2 class="fs-1" >{{ user.username }}</h2>
+  <h4>Пости:</h4>
+  {% for post in posts %}
+    <div>
+      <h5>{{ post.title }}</h5>
+      <p>{{ post.body }}</p>
+      {% if post.photo %}
+        <img src="{{ post.photo.url|cut:"network/" }}" alt="Post Photo" width="500px">
+      {% endif %}
+      <hr>
+    </div>
+  {% empty %}
+    <p>Немає постів.</p>
+  {% endfor %}
+  
+  
+  
+  
+  
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

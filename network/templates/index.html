@@ -7,15 +7,15 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-<link rel="stylesheet" href="/static/css/reg.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">  
 <script src="/static/js/code.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 <!------------------LIght BOx for Gallery--------------> 
 <link rel="stylesheet" href="/static/css/lightbox.min.css">
-
+<link rel="stylesheet" href="/static/css/reg.css">
 <!------------------LIght BOx for Gallery-------------->
 <title>Application-1</title>
 </head>
@@ -28,30 +28,156 @@
 
     <!-------------------------------NAvigation Starts------------------>
 
-    <nav class="navbar navbar-expand-md navbar-dark mb-4" style="background-color:#3097D1">
-        <a href="index.html" class="navbar-brand"><img src="img/brand-white.png" alt="logo" class="img-fluid" width="80px" height="100px"></a>
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color:#44a6df">
+        <a href="/home/" class="navbar-brand"><img src="/static/img/base/logo.png" alt="logo" class="img-fluid" width="70px" height="90px"></a>
+    
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#responsive"><span class="navbar-toggler-icon"></span></button>
+    
+    
+            <div class="collapse navbar-collapse" id="responsive">
+                <ul class="navbar-nav mr-auto text-capitalize">
+                    <li class="nav-item">  <a href="/home/" class="nav-link active" onclick="redirectHome(event)">home</a></li>
+                    <li class="nav-item"><a href="/home/profile/{{user.id}}"  class="nav-link">profile</a></li>
+                    <li class="nav-item"><a href="/chat" data-toggle="modal" class="nav-link">chat</a></li>
+                   
+                    <li class="nav-item"><a href="#" class="nav-link d-md-none">growl</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link d-md-none">logout</a></li>
+    
+                </ul>
+    
+            {% load static %}
+           
+<style> .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .username {
+    margin-right: 50px;
+  }
+  .like-amount{
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+  .delete-comment-container {
+    display: inline-block;
+    margin-left: 10px;
+}
 
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#responsive"><span class="navbar-toggler-icon"></span></button>
-
-
-        <div class="collapse navbar-collapse" id="responsive">
-            <ul class="navbar-nav mr-auto text-capitalize">
-                <li class="nav-item"><a href="index.html" class="nav-link active">home</a></li>
-                <li class="nav-item"><a href="profile/{{user.id}}" class="nav-link">profile</a></li>
-                <li class="nav-item"><a href="#modalview" class="nav-link" data-toggle="modal">messages</a></li>
-                <li class="nav-item"><a href="notification.html" class="nav-link">docs</a></li>
-                <li class="nav-item"><a href="#" class="nav-link d-md-none">growl</a></li>
-                <li class="nav-item"><a href="#" class="nav-link d-md-none">logout</a></li>
-
-            </ul>
-
-            <form action="" class="form-inline ml-auto d-none d-md-block">
-                <input type="text" name="search" id="search" placeholder="Search" class="form-control form-control-sm">
-            </form>
+.delete-button {
+    background-color: transparent;
+   
+    padding: 0;
+    
+    color: red;
+  
+  
+    margin-right: -5000px;
+   
+}
+.capitalize {
+  text-transform: capitalize;
+}
+  </style>
             
-            <a href="logout/" ><img src="\static\img\base\logout.png" alt="img" width="20px" height="20px"></a>
+            
+            <button type="button" id="openDialogButtonsearch" class="btn btn-outline-light">Пошук</button>
+
+<dialog id="dialogsearch">
+  <form method="GET" id="searchForm" action="{% url 'search' %}">
+    <input type="text" name="query" id="search" placeholder="Search" class="form-control form-control-sm">
+    <button type="submit" id="searchButton" class="btn btn-outline-info">Пошук</button>
+  </form>
+
+  <div id="searchResults">
+    <h2 id="queryResult">{{ query }}</h2>
+    {% if results %}
+      <ul id="userList">
+        {% for user in results %}
+          <li>
+            <a href="{% url 'profileuser' user.id %}">
+                <div class="user-info">
+                    <span class="username">{{ user.username }}</span>
+                    {% if user.avatar %}
+                      <img src="{{ user.avatar.url|cut:"network/" }}" class="rounded-circle" alt="{{ result_user.username }} Avatar" width="50px" height="50px">
+                    {% else %}
+                      <img src="{% static 'img/base/default_avatar.png' %}" alt="{{ result_user.username }} Avatar" width="50px" height="50px">
+                    {% endif %}
+                  </div>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p id="noResults">Немає результатів.</p>
+    {% endif %}
+  </div>
+</dialog>
 
 
+<script>
+    $(document).ready(function() {
+      const searchForm = document.getElementById('searchForm');
+      const searchResults = $('#searchResults');
+      const queryResult = $('#queryResult');
+      const userList = $('#userList');
+      const noResults = $('#noResults');
+      const openDialogButton = document.getElementById('openDialogButtonsearch');
+      const dialog = document.getElementById('dialogsearch');
+
+
+  openDialogButton.addEventListener('click', () => {
+    dialog.showModal();
+  });
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) {
+      dialog.close();
+    }
+  });
+  
+      searchForm.on('submit', function(event) {
+        event.preventDefault();
+  
+        const query = $('#search').val();
+  
+        $.ajax({
+          url: '/search',
+          method: 'GET',
+          data: { query: query },
+          dataType: 'json',
+          success: function(data) {
+            queryResult.text(query);
+            userList.empty();
+  
+            if (data.results.length > 0) {
+              data.results.forEach(function(user) {
+                const listItem = $('<li></li>');
+                const link = $('<a></a>').attr('href', `/profileuser/${user.id}`).text(user.username);
+                listItem.append(link);
+                userList.append(listItem);
+              });
+  
+              noResults.hide();
+            } else {
+              noResults.show();
+            }
+  
+            searchResults.show();
+          },
+          error: function(error) {
+            console.error('Помилка при отриманні результатів пошуку:', error);
+          }
+        });
+      });
+    });
+  </script>
+  
+
+
+
+            
 
 
 
@@ -73,11 +199,7 @@
             <div class="modal-content">
 
 
-                <div class="modal-header">
-                    <div class="modal-title h4">Messages</div>
-
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
+                
 
 
                 <div class="modal-body">
@@ -141,7 +263,7 @@
                         <a href="#" class="text-decoration-none">
                                 <li class="media hover-media">
                                    
-                                        <a href="logout/" ><img src="/img/base/logout.png" alt="img" width="60px" height="60px"></a>
+                                       
         
                                         <div class="media-body text-dark">
                                                 <h6 class="media-header">Jchob Thunder and <strong> 1 others</strong></h6>
@@ -277,10 +399,14 @@
                     <div class="card card-left1 mb-4" >
                         
                         <div class="card-body text-center ">
-                            <img src="img/avatar-dhg.png" alt="img" width="120px" height="120px" class="rounded-circle mt-n5">
+                          {% if user.avatar %}
+                          <img src="{{ user.avatar.url|cut:"network/" }}" class="rounded-circle" alt="{{ result_user.username }} Avatar" width="50px" height="50px">
+                        {% else %}
+                          <img src="{% static 'img/base/default_avatar.png' %}" alt="{{ result_user.username }} Avatar" width="50px" height="50px">
+                        {% endif %}
                             <ul class="list-unstyled nav justify-content-center">
-                               <a href="#" class="text-dark text-decoration-none"> <li class="nav-item">Friends <br> <strong>12M</strong></li></a>
-                              <a href="#" class="text-dark text-decoration-none"> <li class="nav-item">Enimes <br> <strong>1</strong></li></a> 
+                               <a href="#" class="text-dark text-decoration-none"> <li class="nav-item">Friends <br> <strong>{{ user_info.following.count }}</strong></li></a>
+                               
                             </ul>
 
                         </div>
@@ -295,16 +421,35 @@
 
                         <div class="card-body">
 
-                                <h5 class="mb-3 card-title">About <small><a href="#" class="ml-1">Edit</a></small></h5>
+                          <p class="mb-3 card-title">
+                            <i class="fas fa-exclamation-circle"></i> Загальна інформація:<br>
+                              
+                              {{user_info.about}}
+                              
+                              
+                            
+                            </p>
 
-                                <p class="card-text"> <i class="fas fa-calendar-week mr-2"></i> Went to <a href="#" class="text-decoration-none">oh canada</a></p>
-
-                                <p class="card-text"> <i class="fas fa-user-friends mr-2"></i> Become a friend with <a href="#" class="text-decoration-none">obama</a></p>
-                                <p class="card-text"> <i class="far fa-building mr-2"></i> Work at <a href="#" class="text-decoration-none">Github</a></p>
-                                <p class="card-text"> <i class="fas fa-home mr-2"></i> Live in <a href="#" class="text-decoration-none">San francisco</a></p>
-                                <p class="card-text"> <i class="fas fa-map-marker mr-2"></i> From <a href="#" class="text-decoration-none">Seattle, WA</a></p>
-
-
+                                <p class="card-text">
+                                  <i class="fas fa-calendar-week mr-2"></i>Дата народження:<br>
+                                  {{ user_info.date_of_birth}}
+                                </p>
+                                
+                                <p class="card-text">
+                                  <i class="fas fa-gamepad"></i> Хобі:</br>
+                                  {{user_info.hobby}}
+                                </p>
+                                
+                                <p class="card-text">
+                                  <i class="far fa-building mr-2"></i>  Місце роботи:</br>
+                                {{user_info.work}}
+                                </p>
+                                
+                                <p class="card-text">
+                                  <i class="fas fa-home mr-2"></i>Місто в якому проживає: </br>
+                                  {{ user_info.city }}
+                                </p>
+                                
 
 
                         </div>
@@ -328,7 +473,7 @@
                         
                             <div class="row">
                                 <div class="col-6 p-1" >
-                                    <button id="openDialogButton">Відкрити вікно</button>
+                                    <button id="openDialogButton">Створити пост</button>
                                                             <div id="overlay"></div> <!-- Елемент для затемненого фону -->
                                                             <dialog id="myDialog">
                                                             <form method="POST" action="{% url 'addpost' %}" enctype="multipart/form-data">
@@ -420,17 +565,14 @@
 
 
                                 <div class="input-group w-100">
-                                 <input type="text" name="message" id="message" placeholder="Message" class="form-control form-control-md">
-
-                                 <div class="input-group-append">
-                                        <div class="input-group-text">
-                                                <i class="fas fa-camera"></i>
-                                            </div>
+                                 
+                                 
+                                                
+                                        
 
 
-                                 </div>
+                               
 
-                                </div>
 
 
 
@@ -440,103 +582,79 @@
                             </form>
 
                         </div>
-
-
-
-                        <div class="card-body">
-                            <div class="media-body">
-                              {% for post in posts %}
-                              <h5>{{ post.user.username }}</h5>
-                              <h2>{{ post.title }}</h2>
-                              <p>{{ post.body }}</p>
-                              <div class="delete-container">
-                                <form method="post" action="/delete/{{ post.id }}" class="delete-form">
-                                  {% csrf_token %}
-                                  <input type="submit" value="Видалити пост" class="delete-button">
-                                </form>
+                        {% for post in posts %}
+                        {% if post.user.id == user_info.id %}
+                          <h5>{{ post.user.username }}</h5>
+                        {% else %}
+                          <a href="/home/profileuser/{{ post.user.id }}">
+                            <h5>{{ post.user.username }}</h5>
+                          </a>
+                        {% endif %} 
+                        <h2>{{ post.title }}</h2>
+                        <p>{{ post.body }}</p>
+                        <img src="/{{ post.photo|cut:"network/" }}" width="500px" >
+                        <div class="like-container">
+                          <a class="like" data-post-id="{{ post.id }}" data-url="/post/{{ post.id }}/toggle_like/">
+                            {% if post.is_liked %}
+                              <button class="btn btn-link p-0">
+                                <img src="/static/img/base/like.png" width="50">
+                              </button>
+                            {% else %}
+                              <button class="btn btn-link p-0">
+                                <img src="/static/img/base/dislike.png" width="30">
+                              </button>
+                            {% endif %}
+                          </a>
+                          <h5 class="like-amount" id="like-count-{{ post.id }}">{{ post.like_set.count }}</h5>
+                        </div>
+                      
+                        <div class="comments-container" id="comments-{{ post.id }}">
+                          <hr>
+                          {% for comment in post.comments.all %}
+                              <div class="comment">
+                                  <div class="comment-info">
+                                      <h4 id="{{ comment.id }}" class="comment-user">
+                                          {{ comment.user.username }}
+                                          {% if comment.user == request.user %}
+                                              <form method="post" action="delete_comment/{{ comment.id }}/" class="delete-form">
+                                                  {% csrf_token %}
+                                                  <button type="submit" class="delete-button">
+                                                    <img src="/static/img/base/trash.png" width="25">
+                                                  </button>
+                                              </form>
+                                          {% endif %}
+                                      </h4>
+                                  </div>
+                                  <p class="comment-body">
+                                      {{ comment.body }}
+                                  </p>
                               </div>
-                              <a class="like" data-post-id="{{ post.id }}" data-url="/post/{{ post.id }}/toggle_like/">
-                                {% if post.is_liked %}
-                                  <button class="like-button liked">
-                                    <img src="/static/img/base/like.png" width="50">
-                                  </button>
-                                {% else %}
-                                  <button class="like-button">
-                                    <img src="/static/img/base/dislike.png" width="50">
-                                  </button>
-                                {% endif %}
-                              </a>
-                              <p class="like-amount" id="like-count-{{ post.id }}">{{ post.like_set.count }}</p>
-                              <img src="/{{ post.photo|cut:"network/" }}" height="300" width="300">
                               <hr>
-                              {% endfor %}
-                            </div>
-                          </div>
-                          
+                          {% endfor %}
+                      </div>
+                      
+                  
+                      <form method="post" action="{% url 'add_comment' post.id %}" class="comment-form" data-post-id="{{ post.id }}">
+                          {% csrf_token %}
+                          <input type="text" name="text">
+                          <button type="submit" class="add-comment-button" data-post-id="{{ post.id }}">Додати</button>
+                      </form>
+                  
+                      <hr>
+                  {% endfor %}
+                  
+                      
+
+                      
+
+
+                      
                           
                           
                           
                           
                         
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-function addLike() {
-  $('.like').click(function() {
-    let btn = $(this);
-    let postId = btn.data('post-id');
-    let likeAmount = btn.next('.like-amount');
-
-    $.ajax(btn.data('url'), {
-      'type': 'POST',
-      'async': true,
-      'dataType': 'json',
-      'data': {
-        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
-        'like': 1
-      },
-      'success': function(data) {
-    if (data['is_like']) {
-    btn.find('img').attr('src', '/static/img/base/like.png');
-    likeAmount.text(data['like_count']);
-    } else {
-    btn.find('img').attr('src', '/static/img/base/dislike.png');
-    likeAmount.text(data['like_count']);
-    }
-      }
-    });
-  });
-}
-
-$(document).ready(function() {
-  addLike();
-
-  $('.like').each(function() {
-    let btn = $(this);
-    let postId = btn.data('post-id');
-    let likeAmount = btn.next('.like-amount');
-
-    $.ajax(btn.data('url'), {
-      'type': 'POST',
-      'async': true,
-      'dataType': 'json',
-      'data': {
-        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
-        'is_like': 1
-      },
-      'success': function(data) {
-        if (data['is_like']) {
-             btn.find('img').attr('src', '/static/img/base/like.png');
-            } else {
-             btn.find('img').attr('src', '/static/img/base/dislike.png');
-            }
-        likeAmount.text(data['like_amount']);
-      }
-    });
-  });
-});
-
-
-</script>
+                        
 
 
 
